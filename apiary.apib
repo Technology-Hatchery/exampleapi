@@ -1,48 +1,50 @@
 FORMAT: 1A
+HOST: underwriting.hellofloat.com
+AUTHOR: alfred@hellofloat.com
+CREATED: March 31, 2015
 
-# Float
-Notes API is a *short texts saving* service similar to its physical paper presence on your table.
+# Float-Demo
+Float-Demo is an API designed for the Float demo web site and iOS app.  It is a subset of the general Float API which will have more functions such as KYC, issue card, etc.
 
-# Group Notes
-Notes related resources of the **Notes API**
+# Group Users
+All the functions related to working with users.
 
-## Notes Collection [/notes]
-### List all Notes [GET]
+## User [/user]
+
++ Parameters:
+  + email: `alfred@hellofloat.com` (string, required) - Unique email address of the user
+  + mobile_phone: `123-456-7890` (string, optional) - Phone number
+  + password: `12345678` (string, required)
+  + password_confirmation `12345678` (string, required)
+  + timezone: `America/Los_Angeles` (string, optional)
+  + first_name: `alfred` (string, required)
+  + last_name: `wechselberger` (string, required)
+  + age: 30 (number, required)
+
+### Store a User [POST]
+Creates a new user.
+
 + Response 200 (application/json)
 
-        [{
-          "id": 1, "title": "Jogging in park"
-        }, {
-          "id": 2, "title": "Pick-up posters from post-officeyy"
-        }, {
-          "id": 3, "title": "Testingy"
-        }]
+        { 
+          "success": true, 
+          "data": {
+              "id": 16,
+              "email": "alfred@hellofloat.com",
+              "first_name": "alfred",
+              "last_name": "wechselberger",
+              "timezone": "America/Los_Angeles",
+              "safe_to_loan": 550,
+              "interest": 0.15,
+              "profile": {
+                "id":16,
+                "verification": {
+                  "mobile_phone_verified": false
+                  "identity_verified": false,
+                  "risk_verified": false
+                },
+                "photo": []
+              }
+            }
+          }
 
-### Create a Note [POST]
-+ Request (application/json)
-
-        { "title": "Buy cheese and bread for breakfast." }
-
-+ Response 201 (application/json)
-
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
-
-## Note [/notes/{id}]
-A single Note object with all its details
-
-+ Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
-
-### Retrieve a Note [GET]
-+ Response 200 (application/json)
-
-    + Header
-
-            X-My-Header: The Value
-
-    + Body
-
-            { "id": 2, "title": "Pick-up posters from post-office" }
-
-### Remove a Note [DELETE]
-+ Response 204
